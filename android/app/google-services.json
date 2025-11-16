@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686221275306",
+    "project_id": "trademate-ff230",
+    "storage_bucket": "trademate-ff230.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686221275306:android:b562d64f8c3c602ecfe0d3",
+        "android_client_info": {
+          "package_name": "com.example.trademate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjYA02sWYDk4J2K7fc77N1ZVUaJZnro9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
