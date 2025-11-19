@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../widgets/customBtn.dart';
 import '../widgets/CustomInput.dart';
 import '../theme.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -11,6 +13,8 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController fnameController = TextEditingController();
   final TextEditingController lnameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController countryController = TextEditingController();
+
 
 
   SignUpPage({super.key});
@@ -73,10 +77,29 @@ class SignUpPage extends StatelessWidget {
                     hint: "Enter your email",
                   ),
                   SizedBox(height: 30),
-                  CustomTextField(
-                    controller: phoneController,
-                    label: "Phone number",
-                    hint: "Enter your phone number",
+                  Row(
+                    children: [
+                      CountryCodePicker(
+                        onChanged: (country) {
+                          print(country.dialCode); // save the selected code if needed
+                        },
+                        initialSelection: 'TN',
+                        favorite: ['+216','TN'],
+                        showCountryOnly: false,
+                        showOnlyCountryWhenClosed: false,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            labelText: "Phone number",
+                            hintText: "Enter your phone number",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 30),
                   CustomTextField(
