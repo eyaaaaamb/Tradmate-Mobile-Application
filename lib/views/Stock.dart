@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/menu.dart';
+import '../theme.dart';
 
 class StockPage extends StatelessWidget {
   const StockPage({super.key});
@@ -7,16 +8,8 @@ class StockPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
-      body: const Center(
-        child: Text(
-          "Stock Page",
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-
-      bottomNavigationBar:  CustomBottomBar(),
-    );
+      backgroundColor: AppColors.background,
+      bottomNavigationBar: CustomBottomBar(),
+      body: Text("heelo"));
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class CustomBottomBar extends StatelessWidget {
   const CustomBottomBar({super.key});
 
@@ -32,7 +31,42 @@ class CustomBottomBar extends StatelessWidget {
             right: 0,
             child: Center(
               child: GestureDetector(
-                onTap: () => Get.toNamed('/add'), // center page
+                onTap: () {
+                  // Show popup
+                  Get.bottomSheet(
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(25),
+                          topRight: Radius.circular(25),
+                        ),
+                      ),
+                      child: Wrap(
+                        children: [
+                          ListTile(
+                            leading: const Icon(Icons.shopping_cart),
+                            title: const Text('Add Purchase'),
+                            onTap: () {
+                              Get.back(); // Close the bottom sheet
+                              Get.toNamed('/add');
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.attach_money),
+                            title: const Text('Add Sale'),
+                            onTap: () {
+                              Get.back();
+                              Get.toNamed('/sales');
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    isScrollControlled: true,
+                  );
+                },
                 child: Container(
                   height: 85,
                   width: 85,
@@ -63,12 +97,10 @@ class CustomBottomBar extends StatelessWidget {
                     onPressed: () => Get.toNamed('/home'),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.list_alt_rounded , size: 30),
+                    icon: const Icon(Icons.list_alt_rounded, size: 30),
                     onPressed: () => Get.toNamed('/stock'),
                   ),
-
                   const SizedBox(width: 55),
-
                   IconButton(
                     icon: const Icon(Icons.work_history_outlined, size: 30),
                     onPressed: () => Get.toNamed('/history'),
