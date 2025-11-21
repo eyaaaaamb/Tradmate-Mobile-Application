@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                   scale: controller.animationValue.value,
                   child: IconButton(
                     onPressed: () {
-                      Get.toNamed('/login');
+                      Get.toNamed('/home');
 
                     },
                     icon: const Icon(Icons.arrow_forward, color: Colors.white,size: 50),

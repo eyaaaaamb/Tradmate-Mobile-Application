@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/menu.dart';
 
-class StockPage extends StatelessWidget {
-  const StockPage({super.key});
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class StockPage extends StatelessWidget {
 
       body: const Center(
         child: Text(
-          "Stock Page",
+          "setting Page",
           style: TextStyle(fontSize: 20),
         ),
       ),

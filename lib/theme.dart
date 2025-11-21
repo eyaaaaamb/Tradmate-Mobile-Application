@@ -11,6 +11,4 @@ class AppColors {
 final ThemeData appTheme = ThemeData(
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
-
-
 );
