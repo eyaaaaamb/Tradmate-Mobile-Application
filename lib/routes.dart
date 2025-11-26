@@ -23,7 +23,7 @@ class AppRoutes{
     GetPage(name: "/add", page: () => AddPage()),
     GetPage(name: "/sales", page: () => SalesPage()),
     GetPage(name: "/stock", page: () => StockPage()),
-    GetPage(name: "/history", page: () => HistoryPage()),
+    GetPage(name: "/history", page: () =>IncomePage()),
     GetPage(name: "/profile", page: () => ProfilePage()),
     GetPage(name: "/setting", page: () => SettingPage()),
 
