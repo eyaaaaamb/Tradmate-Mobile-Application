@@ -1,22 +1,23 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart'; // GetX for routing
+import 'package:get/get.dart';
+
 import 'firebase_options.dart';
-import './views/welcome.dart';
 import './theme.dart';
-import './routes.dart';   // centralized routes
+import './routes.dart';
+import './controllers/lang_controller.dart';
+import './controllers/app_translations.dart';
 
 void main() async {
-  // Ensure Flutter binding is initialized before using async code
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Run the app
+  // Register LangController globally so it's active everywhere
+  Get.put(LangController());
+
   runApp(const MyApp());
 }
 
@@ -25,12 +26,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final LangController langController = Get.find<LangController>();
+
     return GetMaterialApp(
       title: 'TradeMate',
-      theme: appTheme,                // your custom theme
+      theme: appTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',              // starting page
-      getPages: AppRoutes.routes,     // centralized routes from AppRoutes
+
+      // ⭐ IMPORTANT FOR TRANSLATIONS:
+      translations: AppTranslations(),     // your map of translations
+      locale: langController.locale,       // current language
+      fallbackLocale: const Locale('en'),  // fallback if missing text
+
+      initialRoute: '/',
+      getPages: AppRoutes.routes,
     );
   }
 }
