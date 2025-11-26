@@ -21,19 +21,74 @@ class StockPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Stock",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              // --- Titre et bouton en ligne ---
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Stock",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      print("Sales History clicked");
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(50, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.toNamed('/historySale');
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: const Size(50, 30),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        "Sales History",
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+
               const SizedBox(height: 16),
 
               // --- Dropdown pour trier ---
               Obx(() => DropdownButton<String>(
                 value: controller.sortBy.value,
                 items: const [
-                  DropdownMenuItem(value: "Category", child: Text("Category")),
-                  DropdownMenuItem(value: "Month", child: Text("Month")),
-                  DropdownMenuItem(value: "Year", child: Text("Year")),
+                  DropdownMenuItem(
+                      value: "Category",
+                      child: Text(
+                        "Category",
+                        style: TextStyle(color: AppColors.error),
+                      )),
+                  DropdownMenuItem(
+                      value: "Month",
+                      child: Text(
+                        "Month",
+                        style: TextStyle(color: AppColors.error),
+                      )),
+                  DropdownMenuItem(
+                      value: "Year",
+                      child: Text(
+                        "Year",
+                        style: TextStyle(color: AppColors.error),
+                      )),
                 ],
                 onChanged: (val) {
                   if (val != null) controller.sortBy.value = val;
@@ -49,7 +104,8 @@ class StockPage extends StatelessWidget {
                   return GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemCount: sorted.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       mainAxisSpacing: 15,
                       childAspectRatio: 2,

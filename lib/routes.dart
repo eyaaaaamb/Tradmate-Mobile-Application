@@ -10,6 +10,8 @@ import "./views/Stock.dart";
 import "./views/SalesHistory.dart";
 import "./views/profile.dart";
 import "./views/settings.dart";
+import "./views/history.dart";
+
 
 
 
@@ -24,8 +26,10 @@ class AppRoutes{
     GetPage(name: "/sales", page: () => SalesPage()),
     GetPage(name: "/stock", page: () => StockPage()),
     GetPage(name: "/history", page: () =>IncomePage()),
+    GetPage(name: "/historySale", page: () =>HistoryPage()),
     GetPage(name: "/profile", page: () => ProfilePage()),
     GetPage(name: "/setting", page: () => SettingPage()),
+
 
 
 

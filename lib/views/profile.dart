@@ -39,7 +39,7 @@ class ProfilePage extends StatelessWidget {
                   _infoCard(
                     children: [
                       _infoRow("First name", "Eya"),
-                      _infoRow("Last name", "Ben Ali"),
+                      _infoRow("Last name", "Mabrouk"),
                       _infoRow("Email", "eya@example.com"),
                       _infoRow("Phone", "+216 55 000 000"),
                     ],

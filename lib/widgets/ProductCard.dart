@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../theme.dart';
 
-
 class ProductCard extends StatelessWidget {
   final String name;
   final int quantity;
-  final double price;
+  final double price; // sale price
   final String category;
-  final String date;
+  final String date; // purchase date
+  final double? purchasePrice;
+  final String? purchaseDate;
+  final double? salePrice;
+  final String? saleDate;
 
   const ProductCard({
     super.key,
@@ -17,6 +20,10 @@ class ProductCard extends StatelessWidget {
     required this.price,
     required this.category,
     required this.date,
+    this.purchasePrice,
+    this.purchaseDate,
+    this.salePrice,
+    this.saleDate,
   });
 
   @override
@@ -43,16 +50,14 @@ class ProductCard extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-
             const SizedBox(height: 10),
 
             // --- CATEGORY ---
             _iconTextRow(
               icon: Icons.category,
               label: "Catégorie",
-              value: "Alimentation", // statique temporaire
+              value: category,
             ),
-
             const SizedBox(height: 6),
 
             // --- QUANTITY ---
@@ -61,24 +66,42 @@ class ProductCard extends StatelessWidget {
               label: "Qty",
               value: quantity.toString(),
             ),
-
             const SizedBox(height: 6),
 
-            // --- PRICE ---
-            _iconTextRow(
-              icon: Icons.attach_money,
-              label: "Prix unitaire",
-              value: "${price.toStringAsFixed(2)} DT",
-            ),
+            // --- PURCHASE PRICE ---
+            if (purchasePrice != null)
+              _iconTextRow(
+                icon: Icons.attach_money,
+                label: "Prix d'achat",
+                value: "${purchasePrice!.toStringAsFixed(2)} DT",
+              ),
+            if (purchasePrice != null) const SizedBox(height: 6),
 
-            const SizedBox(height: 6),
+            // --- PURCHASE DATE ---
+            if (purchaseDate != null)
+              _iconTextRow(
+                icon: Icons.calendar_today,
+                label: "Date d'achat",
+                value: purchaseDate!,
+              ),
+            if (purchaseDate != null) const SizedBox(height: 6),
 
-            // --- DATE ---
-            _iconTextRow(
-              icon: Icons.calendar_today,
-              label: "Date d'achat",
-              value: "12/11/2025", // statique temporaire
-            ),
+            // --- SALE PRICE ---
+            if (salePrice != null)
+              _iconTextRow(
+                icon: Icons.attach_money,
+                label: "Prix de vente",
+                value: "${salePrice!.toStringAsFixed(2)} DT",
+              ),
+            if (salePrice != null) const SizedBox(height: 6),
+
+            // --- SALE DATE ---
+            if (saleDate != null)
+              _iconTextRow(
+                icon: Icons.calendar_today,
+                label: "Date de vente",
+                value: saleDate!,
+              ),
           ],
         ),
       ),

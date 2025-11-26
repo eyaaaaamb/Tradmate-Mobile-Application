@@ -102,7 +102,7 @@ class CustomBottomBar extends StatelessWidget {
                   ),
                   const SizedBox(width: 55),
                   IconButton(
-                    icon: const Icon(Icons.work_history_outlined, size: 30),
+                    icon: const Icon(Icons.monetization_on_outlined, size: 30),
                     onPressed: () => Get.toNamed('/history'),
                   ),
                   IconButton(
