@@ -34,6 +34,7 @@ class PurchaseModel {
     );
   }
 
+
   factory PurchaseModel.fromMap(Map<String, dynamic> data, String docId) => PurchaseModel(
     id: docId,
     name: data['name'] ?? '',
