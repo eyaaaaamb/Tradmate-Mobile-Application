@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import "./views/welcome.dart";
 import "./views/login.dart";
@@ -23,7 +22,7 @@ class AppRoutes{
     GetPage(name: "/signup", page: () => SignUpPage()),
     GetPage(name: "/home", page: () => HomePage()),
     GetPage(name: "/add", page: () => AddPage()),
-    GetPage(name: "/sales", page: () => SalesPage()),
+    GetPage(name: "/sales", page: () => SalePage()),
     GetPage(name: "/stock", page: () => StockPage()),
     GetPage(name: "/history", page: () =>IncomePage()),
     GetPage(name: "/historySale", page: () =>HistoryPage()),

@@ -2,25 +2,31 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SaleModel {
   final String id;
-  final String purchaseId; // ID of the linked purchase
-  final int quantity;
+  final String purchaseId; // link to PurchaseModel
+  final String name;
+  final String category;
   final DateTime saleDate;
-  final double price;
+  final int quantity;
+  final double price; // sale price
 
   SaleModel({
     required this.id,
     required this.purchaseId,
-    required this.quantity,
+    required this.name,
+    required this.category,
     required this.saleDate,
+    required this.quantity,
     required this.price,
   });
 
   factory SaleModel.fromMap(Map<String, dynamic> data, String docId) {
     return SaleModel(
       id: docId,
-      purchaseId: data['purchaseId'] ?? '',
-      quantity: data['quantity'] ?? 0,
+      purchaseId: data['purchaseId'],
+      name: data['name'] ?? '',
+      category: data['category'] ?? '',
       saleDate: (data['saleDate'] as Timestamp).toDate(),
+      quantity: data['quantity'] ?? 1,
       price: (data['price'] ?? 0).toDouble(),
     );
   }
@@ -28,8 +34,10 @@ class SaleModel {
   Map<String, dynamic> toMap() {
     return {
       'purchaseId': purchaseId,
-      'quantity': quantity,
+      'name': name,
+      'category': category,
       'saleDate': Timestamp.fromDate(saleDate),
+      'quantity': quantity,
       'price': price,
     };
   }

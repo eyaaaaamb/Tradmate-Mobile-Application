@@ -21,10 +21,9 @@ class StockPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --- Titre et bouton en ligne ---
+              // --- Title and Sales History button ---
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     "Stock",
@@ -36,94 +35,85 @@ class StockPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      print("Sales History clicked");
+                      Get.toNamed('/historySale'); // navigate to sales history
                     },
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      minimumSize: const Size(50, 30),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: TextButton(
-                      onPressed: () {
-                        Get.toNamed('/historySale');
-                      },
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(50, 30),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        "Sales History",
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.w500,
-                        ),
+                    child: const Text(
+                      "Sales History",
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ],
               ),
-
               const SizedBox(height: 16),
 
-              // --- Dropdown pour trier ---
+              // --- Dropdown for sorting ---
               Obx(() => DropdownButton<String>(
                 value: controller.sortBy.value,
                 items: const [
                   DropdownMenuItem(
-                      value: "Category",
-                      child: Text(
-                        "Category",
-                        style: TextStyle(color: AppColors.error),
-                      )),
+                    value: "Category",
+                    child: Text(
+                      "Category",
+                      style: TextStyle(color: AppColors.error),
+                    ),
+                  ),
                   DropdownMenuItem(
-                      value: "Month",
-                      child: Text(
-                        "Month",
-                        style: TextStyle(color: AppColors.error),
-                      )),
+                    value: "Month",
+                    child: Text(
+                      "Month",
+                      style: TextStyle(color: AppColors.error),
+                    ),
+                  ),
                   DropdownMenuItem(
-                      value: "Year",
-                      child: Text(
-                        "Year",
-                        style: TextStyle(color: AppColors.error),
-                      )),
+                    value: "Year",
+                    child: Text(
+                      "Year",
+                      style: TextStyle(color: AppColors.error),
+                    ),
+                  ),
                 ],
                 onChanged: (val) {
                   if (val != null) controller.sortBy.value = val;
                 },
               )),
-
               const SizedBox(height: 20),
 
-              // --- Liste des produits ---
+              // --- List of Purchases ---
               Expanded(
                 child: Obx(() {
                   final sorted = controller.sortedProducts;
                   return GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemCount: sorted.length,
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       mainAxisSpacing: 15,
-                      childAspectRatio: 2,
+                      childAspectRatio: 2, // enough height for all fields
                     ),
                     itemBuilder: (context, index) {
                       final product = sorted[index];
                       return ProductCard(
-                        name: product["name"],
-                        quantity: product["quantity"],
-                        price: product["price"],
-                        category: product["category"],
+                        name: product.name,
+                        category: product.category,
+                        quantity: product.quantity,
+                        price: product.price,
                         date:
-                        "${(product["date"] as DateTime).day}/${(product["date"] as DateTime).month}/${(product["date"] as DateTime).year}",
+                        "${product.purchaseDate.day}/${product.purchaseDate.month}/${product.purchaseDate.year}",
+                        purchasePrice: product.price,
+                        purchaseDate: product.purchaseDate != null
+                            ? "${product.purchaseDate.day}/${product.purchaseDate.month}/${product.purchaseDate.year}"
+                            : null,
+
                       );
                     },
                   );
                 }),
-              ),
+              )
+
             ],
           ),
         ),

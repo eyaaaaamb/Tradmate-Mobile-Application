@@ -1,37 +1,33 @@
 import 'package:get/get.dart';
+import '../model/purchase_model.dart';
+import '../services/firestore_service.dart';
 
 class StockController extends GetxController {
-  // Liste de produits
-  var products = <Map<String, dynamic>>[].obs;
+  // Reactive list of purchases
+  var purchases = <PurchaseModel>[].obs;
 
-  // Valeur du tri: "Category", "Month", "Year"
+  // Reactive sorting value
   var sortBy = "Category".obs;
 
+  // Subscribe to Firestore stream on init
   @override
   void onInit() {
     super.onInit();
-    // Exemple de produits
-    products.addAll(List.generate(8, (index) {
-      return {
-        "name": "Product $index",
-        "quantity": 12,
-        "price": 8.5,
-        "category": index % 2 == 0 ? "Alimentation" : "Bricolage",
-        "date": DateTime(2025, (index % 12) + 1, 12),
-      };
-    }));
+    FireStoreService.purchaseStream().listen((data) {
+      purchases.value = data; // reactive update
+    });
   }
 
-  // Liste triée selon sortBy
-  List<Map<String, dynamic>> get sortedProducts {
-    List<Map<String, dynamic>> temp = List.from(products);
+  // Get sorted purchases
+  List<PurchaseModel> get sortedProducts {
+    List<PurchaseModel> sortedList = List.from(purchases); // copy to avoid modifying original
     if (sortBy.value == "Category") {
-      temp.sort((a, b) => a["category"].compareTo(b["category"]));
+      sortedList.sort((a, b) => a.category.compareTo(b.category));
     } else if (sortBy.value == "Month") {
-      temp.sort((a, b) => (a["date"] as DateTime).month.compareTo((b["date"] as DateTime).month));
+      sortedList.sort((a, b) => a.purchaseDate.month.compareTo(b.purchaseDate.month));
     } else if (sortBy.value == "Year") {
-      temp.sort((a, b) => (a["date"] as DateTime).year.compareTo((b["date"] as DateTime).year));
+      sortedList.sort((a, b) => a.purchaseDate.year.compareTo(b.purchaseDate.year));
     }
-    return temp;
+    return sortedList;
   }
 }

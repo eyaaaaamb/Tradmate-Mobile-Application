@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../theme.dart';
 
 class ProductCard extends StatelessWidget {
@@ -43,7 +42,7 @@ class ProductCard extends StatelessWidget {
             // --- PRODUCT NAME ---
             Text(
               name,
-              maxLines: 1,
+              maxLines: 8,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,

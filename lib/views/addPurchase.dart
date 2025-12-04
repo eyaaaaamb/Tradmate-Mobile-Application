@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import '../widgets/menu.dart';
 import '../theme.dart';
+import '../controllers/addpurchase_controller.dart';
+import 'package:get/get.dart';
+import '../widgets/custom_text_field.dart';
 
 class AddPage extends StatelessWidget {
-  const AddPage({super.key});
+  AddPage({super.key});
+
+  final AddPurchaseController controller = Get.put(AddPurchaseController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +22,10 @@ class AddPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Logo at top-right
+                // Logo
                 Align(
                   alignment: Alignment.topRight,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 50,
-                  ),
+                  child: Image.asset('assets/images/logo.png', height: 50),
                 ),
                 const SizedBox(height: 20),
 
@@ -54,33 +56,67 @@ class AddPage extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildTextField("Product"),
+                      // Custom text fields
+                      CustomTextField(
+                        label: "Product",
+                        controller: controller.productController,
+                      ),
                       const SizedBox(height: 15),
-                      buildTextField("Category"),
+                      CustomTextField(
+                        label: "Category",
+                        controller: controller.categoryController,
+                      ),
                       const SizedBox(height: 15),
-                      buildTextField("Date", hint: "DD/MM/YYYY"),
+                      CustomTextField(
+                        label: "Date",
+                        controller: controller.dateController,
+                        hint: "DD/MM/YYYY",
+                      ),
                       const SizedBox(height: 15),
-                      buildTextField("Purchase Price", keyboardType: TextInputType.number),
+                      CustomTextField(
+                        label: "Purchase Price",
+                        controller: controller.priceController,
+                        keyboardType: TextInputType.number,
+                      ),
                       const SizedBox(height: 15),
-                      buildTextField("Quantity", keyboardType: TextInputType.number),
+                      CustomTextField(
+                        label: "Quantity",
+                        controller: controller.quantityController,
+                        keyboardType: TextInputType.number,
+                      ),
                       const SizedBox(height: 25),
+
+                      // Save button
                       Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.pink.shade300,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        child: Obx(
+                              () => ElevatedButton(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : controller.savePurchase,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pink.shade300,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                          ),
-                          child: const Text(
-                            "Save",
-                            style: TextStyle(fontSize: 16,color: Colors.white),
+                            child: controller.isLoading.value
+                                ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                                : const Text(
+                              "Save",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
@@ -92,36 +128,6 @@ class AddPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildTextField(String label,
-      {TextInputType keyboardType = TextInputType.text, String? hint}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 6),
-        TextFormField(
-          keyboardType: keyboardType,
-          decoration: InputDecoration(
-            hintText: hint ?? "Enter $label",
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: AppColors.primary),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: AppColors.primary, width: 1.5),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
