@@ -53,4 +53,5 @@ class HistoryController extends GetxController {
 
     return sorted;
   }
+
 }

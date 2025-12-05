@@ -4,14 +4,19 @@ import '../theme.dart';
 import '../widgets/menu.dart';
 import '../widgets/ProductCard.dart';
 import '../controllers/stock_controller.dart';
+import '../services/firestore_service.dart';
 
 class StockPage extends StatelessWidget {
   StockPage({super.key});
 
+  // Put your controller
   final StockController controller = Get.put(StockController());
 
   @override
   Widget build(BuildContext context) {
+    // Load available stock when the page builds
+    controller.loadStock();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       bottomNavigationBar: CustomBottomBar(),
@@ -86,13 +91,23 @@ class StockPage extends StatelessWidget {
               Expanded(
                 child: Obx(() {
                   final sorted = controller.sortedProducts;
+                  if (sorted.isEmpty) {
+                    return const Center(
+                        child: Text(
+                          "No products in stock",
+                          style: TextStyle(
+                              fontSize: 16, color: AppColors.primary),
+                        ));
+                  }
+
                   return GridView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemCount: sorted.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
                       mainAxisSpacing: 15,
-                      childAspectRatio: 2, // enough height for all fields
+                      childAspectRatio: 2,
                     ),
                     itemBuilder: (context, index) {
                       final product = sorted[index];
@@ -104,16 +119,13 @@ class StockPage extends StatelessWidget {
                         date:
                         "${product.purchaseDate.day}/${product.purchaseDate.month}/${product.purchaseDate.year}",
                         purchasePrice: product.price,
-                        purchaseDate: product.purchaseDate != null
-                            ? "${product.purchaseDate.day}/${product.purchaseDate.month}/${product.purchaseDate.year}"
-                            : null,
-
+                        purchaseDate:
+                        "${product.purchaseDate.day}/${product.purchaseDate.month}/${product.purchaseDate.year}",
                       );
                     },
                   );
                 }),
               )
-
             ],
           ),
         ),
