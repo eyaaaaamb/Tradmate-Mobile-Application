@@ -10,46 +10,48 @@ class HistoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadHistory();
+    listenToHistory();
   }
 
-  // Load only purchases that are sold out (remaining = 0)
-  Future<void> loadHistory() async {
-    sales.clear();
+  void listenToHistory() {
+    // Listen to purchases AND sales together
+    FireStoreService.purchaseRef.snapshots().listen((purchaseSnap) async {
+      sales.clear();
 
-    // Load all purchases
-    final purchases = await FireStoreService.purchaseRef.get();
+      for (var p in purchaseSnap.docs) {
+        final purchase = p.data();
 
-    for (var snap in purchases.docs) {
-      final purchase = snap.data();
+        final remaining = await FireStoreService.getRemainingQuantity(purchase.id);
 
-      // Compute remaining quantity
-      final remaining = await FireStoreService.getRemainingQuantity(purchase.id);
+        if (remaining == 0) {
+          FireStoreService.saleRef
+              .where('purchaseId', isEqualTo: purchase.id)
+              .snapshots()
+              .listen((saleSnap) {
+            for (var s in saleSnap.docs) {
+              final sale = s.data();
 
-      if (remaining == 0) {
-        // Load its sales
-        final saleDocs = await FireStoreService.saleRef
-            .where('purchaseId', isEqualTo: purchase.id)
-            .get();
+              final item = {
+                "name": sale.name,
+                "quantity": sale.quantity,
+                "category": sale.category,
+                "salePrice": sale.price,
+                "saleDate": sale.saleDate,
+                "purchasePrice": purchase.price,
+                "purchaseDate": purchase.purchaseDate,
+              };
 
-        for (var saleSnap in saleDocs.docs) {
-          final sale = saleSnap.data();
-
-          sales.add({
-            "name": sale.name,
-            "quantity": sale.quantity,
-            "category": sale.category,
-            "salePrice": sale.price,
-            "saleDate": sale.saleDate,
-            "purchasePrice": purchase.price,
-            "purchaseDate": purchase.purchaseDate,
+              // Avoid duplicates
+              if (!sales.contains(item)) {
+                sales.add(item);
+              }
+            }
           });
         }
       }
-    }
+    });
   }
 
-  // Sorting
   List<Map<String, dynamic>> get sortedSales {
     List<Map<String, dynamic>> sorted = List.from(sales);
 
@@ -59,13 +61,13 @@ class HistoryController extends GetxController {
         break;
 
       case "Category":
-        sorted.sort((a, b) => (a["category"] as String).compareTo(b["category"]));
+        sorted.sort((a, b) =>
+            (a["category"] as String).compareTo(b["category"]));
         break;
 
-      case "Date":
       default:
         sorted.sort((a, b) =>
-            (b["saleDate"] as DateTime).compareTo(a["saleDate"] as DateTime));
+            (b["saleDate"] as DateTime).compareTo(a["saleDate"]));
         break;
     }
 
