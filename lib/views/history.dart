@@ -21,7 +21,6 @@ class HistoryPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --- Title ---
               const Text(
                 "Sales History",
                 style: TextStyle(
@@ -32,63 +31,64 @@ class HistoryPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // --- Dropdown to sort ---
+              // Sorting dropdown
               Obx(() => DropdownButton<String>(
                 value: controller.sortBy.value,
                 items: const [
                   DropdownMenuItem(
                     value: "Date",
-                    child: Text(
-                      "Date",
-                      style: TextStyle(color: AppColors.error),
-                    ),
+                    child: Text("Date", style: TextStyle(color: AppColors.error)),
                   ),
                   DropdownMenuItem(
                     value: "Price",
-                    child: Text(
-                      "Price",
-                      style: TextStyle(color: AppColors.error),
-                    ),
+                    child: Text("Price", style: TextStyle(color: AppColors.error)),
                   ),
                   DropdownMenuItem(
                     value: "Category",
-                    child: Text(
-                      "Category",
-                      style: TextStyle(color: AppColors.error),
-                    ),
+                    child: Text("Category", style: TextStyle(color: AppColors.error)),
                   ),
                 ],
                 onChanged: (val) {
                   if (val != null) controller.sortBy.value = val;
                 },
               )),
+
               const SizedBox(height: 20),
 
-              // --- Sales List ---
-            Expanded(
-              child: Obx(() {
-                final sales = controller.sortedSales;
-                return ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: sales.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 15),
-                  itemBuilder: (context, index) {
-                    final sale = sales[index];
-                    return ProductCard(
-                      name: sale["name"],
-                      quantity: sale["quantity"],
-                      price: sale["salePrice"], // display sale price
-                      category: sale["category"],
-                      date: "${(sale["saleDate"] as DateTime).day}/${(sale["saleDate"] as DateTime).month}/${(sale["saleDate"] as DateTime).year}",
-                      purchasePrice: sale["purchasePrice"], // optional to display in ProductCard
-                      purchaseDate: "${(sale["purchaseDate"] as DateTime).day}/${(sale["purchaseDate"] as DateTime).month}/${(sale["purchaseDate"] as DateTime).year}",
-                    );
-                  },
-                );
-              }),
-            )
+              // Sales list
+              Expanded(
+                child: Obx(() {
+                  final sales = controller.sortedSales;
 
-        ]),
+                  return ListView.separated(
+                    itemCount: sales.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 15),
+                    itemBuilder: (context, index) {
+                      final sale = sales[index];
+
+                      return ProductCard(
+                        name: sale["name"],
+                        quantity: sale["quantity"],
+                        price: sale["salePrice"],
+
+                        category: sale["category"],
+                        date:
+                        "${sale["saleDate"].day}/${sale["saleDate"].month}/${sale["saleDate"].year}",
+
+                        purchasePrice: sale["purchasePrice"],
+                        purchaseDate:
+                        "${sale["purchaseDate"].day}/${sale["purchaseDate"].month}/${sale["purchaseDate"].year}",
+
+                        salePrice: sale["salePrice"],
+                        saleDate:
+                        "${sale["saleDate"].day}/${sale["saleDate"].month}/${sale["saleDate"].year}",
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
     );

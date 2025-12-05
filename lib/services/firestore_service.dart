@@ -50,6 +50,42 @@ class FireStoreService {
 
     return purchasedQty - soldQty;
   }
+// Get products where remaining quantity = 0
+  static Future<List<Map<String, dynamic>>> getSoldOutHistory() async {
+    final purchasesSnap = await purchaseRef.get();
+    final salesSnap = await saleRef.get();
+
+    List<Map<String, dynamic>> history = [];
+
+    for (var doc in purchasesSnap.docs) {
+      final purchase = doc.data();
+
+      // Calculate remaining
+      final remaining = await getRemainingQuantity(purchase.id);
+
+      if (remaining == 0) {
+        // Collect all sales for this purchase
+        final productSales = salesSnap.docs
+            .map((e) => e.data())
+            .where((sale) => sale.purchaseId == purchase.id)
+            .toList();
+
+        for (var sale in productSales) {
+          history.add({
+            "name": purchase.name,
+            "category": purchase.category,
+            "quantity": sale.quantity,
+            "purchasePrice": purchase.price,
+            "purchaseDate": purchase.purchaseDate,
+            "salePrice": sale.price,
+            "saleDate": sale.saleDate,
+          });
+        }
+      }
+    }
+
+    return history;
+  }
 
   // Get available stock (quantity > 0)
   static Future<List<PurchaseModel>> getAvailableStock() async {
