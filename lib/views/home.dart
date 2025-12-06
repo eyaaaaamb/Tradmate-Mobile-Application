@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../widgets/menu.dart';
 import '../theme.dart';
-
+import '../controllers/home_controller.dart';
+import "../bindings/home_bindings.dart";
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  final controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.background,
       bottomNavigationBar: CustomBottomBar(),
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView( // Allows vertical scrolling
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +28,6 @@ class HomePage extends StatelessWidget {
                   height: 50,
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // Title
@@ -38,7 +39,6 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // THIS MONTH'S INCOME CARD
@@ -60,49 +60,53 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // TEXTS
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "This month's income",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey.shade800,
-                            fontWeight: FontWeight.w600,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "This month's income",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade800,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          "3000 \$",
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Obx(() => Text(
+                            "${controller.thisMonthIncome.value.toStringAsFixed(2)} Dt",
+                            style: TextStyle(
+                              fontSize: 28,
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                        ],
+                      ),
                     ),
 
                     // BADGE
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
                         color: Colors.green.shade100,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(
+                      child:  Text(
                         "+32%",
                         style: TextStyle(
                           color: Colors.green.shade700,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
+                      )
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 20),
 
               // BEST & LOW SALES SECTION
@@ -129,7 +133,8 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: Colors.green.shade100,
                               borderRadius: BorderRadius.circular(20),
@@ -144,20 +149,16 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Text(
-                            "iPhone 12",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            "120 units sold",
-                            style: TextStyle(
-                              color: Colors.grey.shade700,
-                              fontSize: 14,
-                            ),
+                          Expanded(
+                            child: Obx(() => Text(
+                              controller.bestSeller.value,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            )),
                           ),
                         ],
                       ),
@@ -185,7 +186,8 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: Colors.red.shade100,
                               borderRadius: BorderRadius.circular(20),
@@ -200,20 +202,16 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const Text(
-                            "Samsung A10",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            "12 units sold",
-                            style: TextStyle(
-                              color: Colors.grey.shade700,
-                              fontSize: 14,
-                            ),
+                          Expanded(
+                            child: Obx(() => Text(
+                              controller.lowSeller.value,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            )),
                           ),
                         ],
                       ),

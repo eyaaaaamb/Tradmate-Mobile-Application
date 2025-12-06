@@ -3,39 +3,55 @@ import '../model/purchase_model.dart';
 import '../services/firestore_service.dart';
 import 'package:get/get.dart';
 
-class AddPurchaseController {
+class AddPurchaseController extends GetxController {
   // Text controllers for form fields
-  final TextEditingController productController = TextEditingController();
-  final TextEditingController categoryController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController idController = TextEditingController(); // optional numeric ID
+  final productController = TextEditingController();
+  final categoryController = TextEditingController();
+  final priceController = TextEditingController();
+  final quantityController = TextEditingController();
+  final idController = TextEditingController(); // optional numeric ID
 
+  // Selected purchase date
+  var selectedPurchaseDate = Rxn<DateTime>();
+
+  // Loading state
   var isLoading = false.obs;
 
-  // Dispose all controllers
-  void dispose() {
+  @override
+  void onClose() {
     productController.dispose();
     categoryController.dispose();
-    dateController.dispose();
     priceController.dispose();
     quantityController.dispose();
     idController.dispose();
+    super.onClose();
   }
 
-  // Validate form inputs
+  // Pick purchase date using calendar
+  Future<void> pickPurchaseDate(BuildContext context) async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: selectedPurchaseDate.value ?? now,
+      firstDate: DateTime(now.year - 5),
+      lastDate: DateTime(now.year + 5),
+    );
+
+    if (picked != null) {
+      selectedPurchaseDate.value = picked;
+    }
+  }
+
+  // Validate inputs
   bool validateInputs() {
     if (productController.text.isEmpty ||
         categoryController.text.isEmpty ||
-        dateController.text.isEmpty ||
         priceController.text.isEmpty ||
         quantityController.text.isEmpty) {
       Get.snackbar("Error", "Please fill all fields");
       return false;
     }
 
-    // Validate numeric values
     if (double.tryParse(priceController.text) == null) {
       Get.snackbar("Error", "Price must be a number");
       return false;
@@ -46,23 +62,12 @@ class AddPurchaseController {
       return false;
     }
 
-    // Validate date
-    final parts = dateController.text.split('/');
-    if (parts.length != 3) {
-      Get.snackbar("Error", "Date format should be DD/MM/YYYY");
+    if (selectedPurchaseDate.value == null) {
+      Get.snackbar("Error", "Please pick a purchase date");
       return false;
     }
 
-    try {
-      int.parse(parts[0]);
-      int.parse(parts[1]);
-      int.parse(parts[2]);
-    } catch (e) {
-      Get.snackbar("Error", "Date contains invalid numbers");
-      return false;
-    }
-
-    // Optional: validate ID if you want numeric ID
+    // Optional: validate numeric ID
     if (idController.text.isNotEmpty && int.tryParse(idController.text) == null) {
       Get.snackbar("Error", "ID must be a number");
       return false;
@@ -78,43 +83,26 @@ class AddPurchaseController {
     try {
       isLoading.value = true;
 
-      // Parse inputs
-      final String product = productController.text;
-      final String category = categoryController.text;
-
-      final parts = dateController.text.split('/');
-      final DateTime purchaseDate = DateTime(
-        int.parse(parts[2]),
-        int.parse(parts[1]),
-        int.parse(parts[0]),
-      );
-
-      final double price = double.parse(priceController.text);
-      final int quantity = int.parse(quantityController.text);
-
-      final String id = idController.text; // optional, can be empty for Firestore-generated
-
-      // Create purchase object
       final purchase = PurchaseModel(
-        id: id,
-        name: product,
-        category: category,
-        purchaseDate: purchaseDate,
-        price: price,
-        quantity: quantity,
+        id: idController.text,
+        name: productController.text,
+        category: categoryController.text,
+        purchaseDate: selectedPurchaseDate.value!,
+        price: double.parse(priceController.text),
+        quantity: int.parse(quantityController.text),
       );
 
-      // Send to Firestore
       await FireStoreService.addPurchase(purchase);
+
       Get.snackbar("Success", "Purchase saved successfully");
-      // --- Clear all input fields ---
+
+      // Clear fields
       productController.clear();
       categoryController.clear();
-      dateController.clear();
       priceController.clear();
       quantityController.clear();
       idController.clear();
-
+      selectedPurchaseDate.value = null;
     } catch (e) {
       Get.snackbar("Error", e.toString());
     } finally {

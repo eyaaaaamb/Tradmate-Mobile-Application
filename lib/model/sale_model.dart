@@ -7,7 +7,8 @@ class SaleModel {
   final String category;
   final DateTime saleDate;
   final int quantity;
-  final double price; // sale price
+  final double price;
+ final double profit;
 
   SaleModel({
     required this.id,
@@ -17,6 +18,7 @@ class SaleModel {
     required this.saleDate,
     required this.quantity,
     required this.price,
+    required this.profit,
   });
 
   factory SaleModel.fromMap(Map<String, dynamic> data, String docId) {
@@ -28,6 +30,7 @@ class SaleModel {
       saleDate: (data['saleDate'] as Timestamp).toDate(),
       quantity: data['quantity'] ?? 1,
       price: (data['price'] ?? 0).toDouble(),
+      profit: (data['profit'] ?? 0).toDouble(),
     );
   }
 
@@ -39,6 +42,7 @@ class SaleModel {
       'saleDate': Timestamp.fromDate(saleDate),
       'quantity': quantity,
       'price': price,
+      'profit': profit,
     };
   }
 }

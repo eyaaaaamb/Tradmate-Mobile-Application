@@ -58,29 +58,55 @@ class AddPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Custom text fields
+                      // Product
                       CustomTextField(
                         label: "Product",
                         controller: controller.productController,
                       ),
                       const SizedBox(height: 15),
+
+                      // Category
                       CustomTextField(
                         label: "Category",
                         controller: controller.categoryController,
                       ),
                       const SizedBox(height: 15),
-                      CustomTextField(
-                        label: "Date",
-                        controller: controller.dateController,
-                        hint: "DD/MM/YYYY",
-                      ),
+
+                      // Purchase Date
+                      Obx(() => TextButton(
+                        onPressed: () async {
+                          final now = DateTime.now();
+                          final picked = await showDatePicker(
+                            context: context,
+                            initialDate: now,
+                            firstDate: DateTime(now.year - 5),
+                            lastDate: DateTime(now.year + 5),
+                          );
+                          if (picked != null) {
+                            controller.selectedPurchaseDate.value = picked;
+                          }
+                        },
+                        child: Text(
+                          controller.selectedPurchaseDate.value == null
+                              ? "Pick purchase date"
+                              : "${controller.selectedPurchaseDate.value!.day}/${controller.selectedPurchaseDate.value!.month}/${controller.selectedPurchaseDate.value!.year}",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      )),
                       const SizedBox(height: 15),
+
+                      // Purchase Price
                       CustomTextField(
                         label: "Purchase Price",
                         controller: controller.priceController,
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 15),
+
+                      // Quantity
                       CustomTextField(
                         label: "Quantity",
                         controller: controller.quantityController,
@@ -90,35 +116,33 @@ class AddPage extends StatelessWidget {
 
                       // Save button
                       Center(
-                        child: Obx(
-                              () => ElevatedButton(
-                            onPressed: controller.isLoading.value
-                                ? null
-                                : controller.savePurchase,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.pink.shade300,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 50, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: controller.isLoading.value
-                                ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                                : const Text(
-                              "Save",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.white),
+                        child: Obx(() => ElevatedButton(
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : controller.savePurchase,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink.shade300,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                        ),
+                          child: controller.isLoading.value
+                              ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                              : const Text(
+                            "Save",
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.white),
+                          ),
+                        )),
                       ),
                     ],
                   ),

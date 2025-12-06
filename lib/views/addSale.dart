@@ -77,8 +77,15 @@ class SalePage extends StatelessWidget {
                 const SizedBox(height: 15),
                 buildTextField("Sale Price", controller.salePriceController),
                 const SizedBox(height: 15),
-                buildTextField("Sale Date", controller.saleDateController, hint: "DD/MM/YYYY"),
-                const SizedBox(height: 25),
+                Obx(() => TextButton(
+                  onPressed: () => controller.pickSaleDate(context),
+                  child: Text(
+                    controller.selectedSaleDate.value == null
+                        ? "Pick sale date"
+                        : "${controller.selectedSaleDate.value!.day}/${controller.selectedSaleDate.value!.month}/${controller.selectedSaleDate.value!.year}",
+                  ),
+                )),
+
 
                 // --- Save Button ---
                 Center(

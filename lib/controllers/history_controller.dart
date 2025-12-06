@@ -14,41 +14,41 @@ class HistoryController extends GetxController {
   }
 
   void listenToHistory() {
-    // Listen to purchases AND sales together
+    // Listen to purchases in real-time
     FireStoreService.purchaseRef.snapshots().listen((purchaseSnap) async {
-      sales.clear();
+      List<Map<String, dynamic>> updatedHistory = [];
 
-      for (var p in purchaseSnap.docs) {
-        final purchase = p.data();
+      for (var pDoc in purchaseSnap.docs) {
+        final purchase = pDoc.data() as PurchaseModel;
 
+        // await is allowed here
         final remaining = await FireStoreService.getRemainingQuantity(purchase.id);
 
         if (remaining == 0) {
-          FireStoreService.saleRef
+          // get all sales linked to this purchase
+          final saleSnap = await FireStoreService.saleRef
               .where('purchaseId', isEqualTo: purchase.id)
-              .snapshots()
-              .listen((saleSnap) {
-            for (var s in saleSnap.docs) {
-              final sale = s.data();
+              .get();
 
-              final item = {
-                "name": sale.name,
-                "quantity": sale.quantity,
-                "category": sale.category,
-                "salePrice": sale.price,
-                "saleDate": sale.saleDate,
-                "purchasePrice": purchase.price,
-                "purchaseDate": purchase.purchaseDate,
-              };
+          for (var sDoc in saleSnap.docs) {
+            final sale = sDoc.data() as SaleModel;
 
-              // Avoid duplicates
-              if (!sales.contains(item)) {
-                sales.add(item);
-              }
-            }
-          });
+            updatedHistory.add({
+              "name": purchase.name,
+              "category": purchase.category,
+              "quantity": sale.quantity,
+              "purchasePrice": purchase.price,
+              "purchaseDate": purchase.purchaseDate,
+              "salePrice": sale.price,
+              "saleDate": sale.saleDate,
+              "profit": sale.profit,
+            });
+          }
         }
       }
+
+      // update observable list
+      sales.value = updatedHistory;
     });
   }
 
@@ -61,13 +61,11 @@ class HistoryController extends GetxController {
         break;
 
       case "Category":
-        sorted.sort((a, b) =>
-            (a["category"] as String).compareTo(b["category"]));
+        sorted.sort((a, b) => (a["category"] as String).compareTo(b["category"]));
         break;
 
       default:
-        sorted.sort((a, b) =>
-            (b["saleDate"] as DateTime).compareTo(a["saleDate"]));
+        sorted.sort((a, b) => (b["saleDate"] as DateTime).compareTo(a["saleDate"]));
         break;
     }
 
