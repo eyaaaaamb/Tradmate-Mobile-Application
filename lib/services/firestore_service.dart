@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/purchase_model.dart';
 import '../model/sale_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:rxdart/rxdart.dart';
 
 class FireStoreService {
   static final purchaseRef = FirebaseFirestore.instance
@@ -48,41 +48,7 @@ class FireStoreService {
     return purchasedQty - soldQty;
   }
 
-  // ---------------- SOLD OUT HISTORY ----------------
-  static Stream<List<Map<String, dynamic>>> getSoldOutHistoryStream() {
-    return purchaseRef.snapshots().asyncMap((purchasesSnap) async {
-      final salesSnap = await saleRef.get(); // sales could also be a stream if you want fully real-time
 
-      List<Map<String, dynamic>> history = [];
-
-      for (var doc in purchasesSnap.docs) {
-        final purchase = doc.data();
-        final remaining = await getRemainingQuantity(purchase.id);
-
-        if (remaining == 0) {
-          final productSales = salesSnap.docs
-              .map((e) => e.data())
-              .where((sale) => sale.purchaseId == purchase.id)
-              .toList();
-
-          for (var sale in productSales) {
-            history.add({
-              "name": purchase.name,
-              "category": purchase.category,
-              "quantity": sale.quantity,
-              "purchasePrice": purchase.price,
-              "purchaseDate": purchase.purchaseDate,
-              "salePrice": sale.price,
-              "saleDate": sale.saleDate,
-              "profit": sale.profit,
-            });
-          }
-        }
-      }
-
-      return history;
-    });
-  }
 
 
   // ---------------- AVAILABLE STOCK ----------------
