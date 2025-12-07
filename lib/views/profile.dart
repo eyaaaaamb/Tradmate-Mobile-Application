@@ -58,16 +58,16 @@ class ProfilePage extends StatelessWidget {
                   _sectionTitle("Settings"),
                   _infoCard(
                     children: [
-                      _settingsButton(
-                        icon: Icons.lock_outline,
-                        text: "Change Password",
-                        onTap: () {},
-                      ),
-                      _settingsButton(
-                        icon: Icons.language,
-                        text: "Change Language",
-                        onTap: () => langController.showLanguageDialog(),
-                      ),
+                     // _settingsButton(
+                      //  icon: Icons.lock_outline,
+                      //  text: "Change Password",
+                      //  onTap: () {},
+                     // ),
+                     // _settingsButton(
+                      //  icon: Icons.language,
+                      //  text: "Change Language",
+                       // onTap: () => langController.showLanguageDialog(),
+                     // ),
                       _settingsButton(
                         icon: Icons.logout,
                         text: "Log out",
