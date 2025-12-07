@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../model/purchase_model.dart';
 import '../services/firestore_service.dart';
@@ -9,7 +10,9 @@ class AddPurchaseController extends GetxController {
   final categoryController = TextEditingController();
   final priceController = TextEditingController();
   final quantityController = TextEditingController();
-  final idController = TextEditingController(); // optional numeric ID
+  final idController = TextEditingController();
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+
 
   // Selected purchase date
   var selectedPurchaseDate = Rxn<DateTime>();
@@ -90,6 +93,7 @@ class AddPurchaseController extends GetxController {
         purchaseDate: selectedPurchaseDate.value!,
         price: double.parse(priceController.text),
         quantity: int.parse(quantityController.text),
+        userId: uid,
       );
 
       await FireStoreService.addPurchase(purchase);

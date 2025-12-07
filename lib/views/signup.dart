@@ -11,7 +11,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController fnameController = TextEditingController();
   final TextEditingController lnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -78,18 +78,7 @@ class SignUpPage extends StatelessWidget {
                     label: "Email",
                     hint: "Enter your email",
                   ),
-                  SizedBox(height: 30),
 
-                  // Phone
-                  TextField(
-                    controller: phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: "Phone number",
-                      hintText: "Enter your phone number",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
                   SizedBox(height: 30),
 
                   // Password
@@ -116,7 +105,6 @@ class SignUpPage extends StatelessWidget {
                         firstName: fnameController.text.trim(),
                         lastName: lnameController.text.trim(),
                         email: emailController.text.trim(),
-                        phone: phoneController.text.trim(),
                         password: passwordController.text.trim(),
                         confirmPassword: confirmPasswordController.text.trim(),
 

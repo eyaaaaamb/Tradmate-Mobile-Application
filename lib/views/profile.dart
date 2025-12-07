@@ -45,10 +45,10 @@ class ProfilePage extends StatelessWidget {
                   _sectionTitle("Personal Details"),
                   _infoCard(
                     children: [
-                      _infoRow("First name", "Eya"),
-                      _infoRow("Last name", "Mabrouk"),
-                      _infoRow("Email", "eya@example.com"),
-                      _infoRow("Phone", "+216 55 000 000"),
+                      _infoRow("First name", controller.user.value.firstName),
+                      _infoRow("Last name", controller.user.value.lastName),
+                      _infoRow("Email", controller.user.value.email),
+
                     ],
                   ),
 

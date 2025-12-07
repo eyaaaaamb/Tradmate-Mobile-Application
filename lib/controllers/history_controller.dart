@@ -27,7 +27,7 @@ class HistoryController extends GetxController {
         if (remaining == 0) {
           // get all sales linked to this purchase
           final saleSnap = await FireStoreService.saleRef
-              .where('purchaseId', isEqualTo: purchase.id)
+              .where('purchaseId', isEqualTo: purchase.id )
               .get();
           for (var sDoc in saleSnap.docs) {
             final sale = sDoc.data() as SaleModel;

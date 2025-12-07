@@ -22,7 +22,6 @@ class AuthController extends GetxController {
     required String firstName,
     required String lastName,
     required String email,
-    required String phone,
     required String password,
     required String confirmPassword,
   }) async {
@@ -41,7 +40,7 @@ class AuthController extends GetxController {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        phone: phone,
+
       );
       await firestoreService.createUser(user: newUser, password: password);
       print("Email: ${newUser.email}, password: $password");

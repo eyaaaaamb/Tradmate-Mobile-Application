@@ -9,6 +9,8 @@ class SaleModel {
   final int quantity;
   final double price;
  final double profit;
+  final String userId;
+
 
   SaleModel({
     required this.id,
@@ -19,6 +21,7 @@ class SaleModel {
     required this.quantity,
     required this.price,
     required this.profit,
+    required this.userId,
   });
 
   factory SaleModel.fromMap(Map<String, dynamic> data, String docId) {
@@ -31,6 +34,8 @@ class SaleModel {
       quantity: data['quantity'] ?? 1,
       price: (data['price'] ?? 0).toDouble(),
       profit: (data['profit'] ?? 0).toDouble(),
+      userId: data['userId'] ?? '',
+
     );
   }
 
@@ -43,6 +48,7 @@ class SaleModel {
       'quantity': quantity,
       'price': price,
       'profit': profit,
+      'userId': userId,
     };
   }
 }

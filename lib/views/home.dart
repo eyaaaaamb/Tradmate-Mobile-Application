@@ -87,22 +87,7 @@ class HomePage extends StatelessWidget {
                     ),
 
                     // BADGE
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.green.shade100,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child:  Text(
-                        "+32%",
-                        style: TextStyle(
-                          color: Colors.green.shade700,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ),
+
                   ],
                 ),
               ),

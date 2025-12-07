@@ -2,13 +2,43 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../controllers/auth_controller.dart';
+import '../model/user_model.dart';
+import '../services/firestore_service.dart';
 
 class ProfileController extends GetxController {
-  // Method to perform logout
-  void logout() async {
-    await FirebaseAuth.instance.signOut();
+  // Observable user
+  var user = UserModel(
+    id : "",
+    firstName: '',
+    lastName: '',
+    email: '',
 
+  ).obs;
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUser();
+  }
+
+  // ---------------- FETCH USER ----------------
+  void fetchUser() async {
+    final uid = auth.currentUser?.uid;
+    if (uid != null) {
+      try {
+        final u = await FireStoreService.getUserInfo(uid);
+        user.value = u;
+      } catch (e) {
+        print("Error fetching user: $e");
+      }
+    }
+  }
+
+  // ---------------- LOGOUT ----------------
+  void logout() async {
+    await auth.signOut();
     Fluttertoast.showToast(
       msg: "Logged out successfully",
       toastLength: Toast.LENGTH_SHORT,
@@ -19,7 +49,7 @@ class ProfileController extends GetxController {
     Get.offAllNamed('/login');
   }
 
-  // Method to show logout confirmation dialog
+  // ---------------- CONFIRM LOGOUT ----------------
   void confirmLogout(BuildContext context) {
     showDialog(
       context: context,

@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
 import '../services/firestore_service.dart';
 import '../model/sale_model.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class IncomeController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   var category = "month".obs; // month/year
   var sales = <SaleModel>[].obs; // reactive sales list
   var monthlyIncome = <Map<String, dynamic>>[].obs;
@@ -15,8 +16,9 @@ class IncomeController extends GetxController {
   }
 
   void listenToSales() {
-    FireStoreService.saleRef.snapshots().listen((saleSnap) {
-      final loadedSales = saleSnap.docs.map((doc) => doc.data()).toList(); // already SaleModel
+    final userId = _auth.currentUser?.uid;
+    FireStoreService.saleRef.where('userId',isEqualTo : userId).snapshots().listen((saleSnap) {
+      final loadedSales = saleSnap.docs.map((doc) => doc.data()).toList();
       sales.value = loadedSales;
 
       calculateMonthlyIncome();

@@ -6,6 +6,7 @@ class PurchaseModel {
   final DateTime purchaseDate;
   final int quantity;
   final double price;
+  final String userId;
 
   PurchaseModel({
     required this.id,
@@ -13,6 +14,7 @@ class PurchaseModel {
     required this.category,
     required this.purchaseDate,
     required this.quantity,
+    required this.userId,
     required this.price,
   });
 
@@ -23,6 +25,7 @@ class PurchaseModel {
     DateTime? purchaseDate,
     int? quantity,
     double? price,
+    String? userId,
   }) {
     return PurchaseModel(
       id: id ?? this.id,
@@ -31,6 +34,7 @@ class PurchaseModel {
       purchaseDate: purchaseDate ?? this.purchaseDate,
       quantity: quantity ?? this.quantity,
       price: price ?? this.price,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -42,6 +46,7 @@ class PurchaseModel {
     purchaseDate: (data['purchaseDate'] as Timestamp).toDate(),
     quantity: data['quantity'] ?? 1,
     price: (data['price'] ?? 0).toDouble(),
+    userId: data['userId'] ?? '',
   );
 
   Map<String, dynamic> toMap() => {
@@ -50,5 +55,6 @@ class PurchaseModel {
     'purchaseDate': Timestamp.fromDate(purchaseDate),
     'quantity': quantity,
     'price': price,
+    'userId': userId,
   };
 }

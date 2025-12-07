@@ -50,7 +50,7 @@ class SaleController extends GetxController {
 
     final quantity = int.tryParse(quantityController.text) ?? 0;
     final price = double.tryParse(salePriceController.text) ?? 0;
-    final saleDate = selectedSaleDate.value ?? DateTime.now(); // ✅ Use picked date
+    final saleDate = selectedSaleDate.value ?? DateTime.now();
     final purchase = selectedPurchase.value!;
 
     if (quantity <= 0 || quantity > purchase.quantity) {
@@ -75,6 +75,7 @@ class SaleController extends GetxController {
       quantity: quantity,
       price: price,
       profit: profit,
+      userId: purchase.userId,
     );
 
     await FireStoreService.addSale(sale);

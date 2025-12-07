@@ -11,6 +11,10 @@ import 'package:get/get.dart';
 class FireStoreService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final uid = FirebaseAuth.instance.currentUser!.uid;
+  static final CollectionReference userRef = _firestore.collection('users');
+
+
 
   static final purchaseRef = FirebaseFirestore.instance
       .collection('purchase')
@@ -25,6 +29,11 @@ class FireStoreService {
     fromFirestore: (snap, _) => SaleModel.fromMap(snap.data()!, snap.id),
     toFirestore: (sale, _) => sale.toMap(),
   );
+  static Future<UserModel> getUserInfo(String id) async {
+    final userSnap = await userRef.doc(id).get();
+    final data = userSnap.data() as Map<String, dynamic>;
+    return UserModel.fromMap(data, userSnap.id);
+  }
 
 
   // ---------------- ADD PURCHASE ----------------
@@ -44,7 +53,7 @@ class FireStoreService {
 
     final purchasedQty = purchase.quantity;
 
-    final salesSnap = await saleRef.where('purchaseId', isEqualTo: purchaseId).get();
+    final salesSnap = await saleRef.where('purchaseId', isEqualTo: purchaseId).where('userId',isEqualTo : uid).get();
 
     int soldQty = 0;
     for (var doc in salesSnap.docs) {
@@ -60,7 +69,7 @@ class FireStoreService {
 
   // ---------------- AVAILABLE STOCK ----------------
   static Future<List<PurchaseModel>> getAvailableStock() async {
-    final snapshot = await purchaseRef.get();
+    final snapshot = await purchaseRef.where('userId',isEqualTo : uid).get();
     List<PurchaseModel> result = [];
 
     for (var doc in snapshot.docs) {
@@ -85,7 +94,7 @@ class FireStoreService {
 
   // ---------------- GET ALL SALES ----------------
   static Future<List<SaleModel>> getSales() async {
-    final sales = await saleRef.get();
+    final sales = await saleRef.where('userId',isEqualTo : uid).get();
     return sales.docs.map((doc) => doc.data()).toList();
   }
 
@@ -93,7 +102,7 @@ class FireStoreService {
 
   // Monthly profit
   static Future<Map<String, double>> getMonthlyProfit() async {
-    final salesSnap = await saleRef.get();
+    final salesSnap = await saleRef.where('userId',isEqualTo : uid).orderBy('saleDate').get();
     Map<String, double> monthlyProfit = {};
 
     for (var doc in salesSnap.docs) {
@@ -107,7 +116,7 @@ class FireStoreService {
 
   // Yearly profit
   static Future<Map<int, double>> getYearlyProfit() async {
-    final salesSnap = await saleRef.get();
+    final salesSnap = await saleRef.where('userId',isEqualTo : uid).orderBy('saleDate').get();
     Map<int, double> yearlyProfit = {};
 
     for (var doc in salesSnap.docs) {
@@ -118,10 +127,13 @@ class FireStoreService {
 
     return yearlyProfit;
   }
-  static Future<double> getThisMonthIncome() async {
-    final salesSnap = await saleRef.get();
-    double total = 0.0;
+  // FireStoreService
+  static String get currentUid => FirebaseAuth.instance.currentUser!.uid;
 
+// Example usage
+  static Future<double> getThisMonthIncome() async {
+    final salesSnap = await saleRef.where('userId', isEqualTo: currentUid).get();
+    double total = 0.0;
     final now = DateTime.now();
     final currentMonth = now.month;
     final currentYear = now.year;
@@ -129,11 +141,8 @@ class FireStoreService {
     for (var doc in salesSnap.docs) {
       final sale = doc.data();
       final saleDate = sale.saleDate;
-      print(saleDate); // DateTime field
-
       if (saleDate.year == currentYear && saleDate.month == currentMonth) {
         total += sale.profit;
-        print(total);
       }
     }
 
@@ -144,7 +153,7 @@ class FireStoreService {
 
   // Best seller by profit
   static Future<Map<String, dynamic>> getBestSeller() async {
-    final salesSnap = await saleRef.get();
+    final salesSnap = await saleRef.where('userId',isEqualTo : uid).get();
     Map<String, double> productProfit = {};
 
     for (var doc in salesSnap.docs) {
@@ -160,7 +169,7 @@ class FireStoreService {
 
   // Least seller by profit
   static Future<Map<String, dynamic>> getLeastSeller() async {
-    final salesSnap = await saleRef.get();
+    final salesSnap = await saleRef.where('userId',isEqualTo : uid).get();
     Map<String, double> productProfit = {};
 
     for (var doc in salesSnap.docs) {
@@ -201,3 +210,7 @@ class FireStoreService {
 
 
 }
+
+
+
+
