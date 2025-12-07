@@ -1,8 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../controllers/auth_controller.dart';
 
 class ProfileController extends GetxController {
+  // Method to perform logout
+  void logout() async {
+    await FirebaseAuth.instance.signOut();
+
+    Fluttertoast.showToast(
+      msg: "Logged out successfully",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
+
+    // Navigate to login page
+    Get.offAllNamed('/login');
+  }
+
   // Method to show logout confirmation dialog
   void confirmLogout(BuildContext context) {
     showDialog(
@@ -18,7 +34,7 @@ class ProfileController extends GetxController {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // Close dialog
-              logout();
+              logout(); // Call the logout method
             },
             child: const Text(
               "Log out",
@@ -28,21 +44,5 @@ class ProfileController extends GetxController {
         ],
       ),
     );
-  }
-
-  // Actual logout logic
-  void logout() {
-    // TODO: Clear session or token
-    // Example: AuthController.to.logout();
-
-    // Optional toast
-    Fluttertoast.showToast(
-      msg: "Logged out successfully",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-    );
-
-    // Navigate to login page
-    Get.offAllNamed('/login');
   }
 }

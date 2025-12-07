@@ -25,7 +25,7 @@ class TranslationService {
         throw Exception('Failed to translate. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print("Translation error: $e");
+      //print("Translation error: $e");
       return text; // fallback: return original text if API fails
     }
   }

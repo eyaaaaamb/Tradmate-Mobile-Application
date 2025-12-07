@@ -3,30 +3,28 @@ import 'package:get/get.dart';
 import '../widgets/customBtn.dart';
 import '../widgets/CustomInput.dart';
 import '../theme.dart';
-import 'package:country_code_picker/country_code_picker.dart';
-
+import '../controllers/auth_controller.dart';
 
 class SignUpPage extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final controller = Get.put(AuthController());
+  // Controllers
   final TextEditingController fnameController = TextEditingController();
   final TextEditingController lnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController countryController = TextEditingController();
-
-
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Stack(
           children: [
-            // Main content
+            // Main scrollable content
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
               child: Column(
@@ -51,6 +49,8 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 50),
+
+                  // First & Last Name
                   Row(
                     children: [
                       Expanded(
@@ -71,58 +71,61 @@ class SignUpPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 30),
+
+                  // Email
                   CustomTextField(
                     controller: emailController,
                     label: "Email",
                     hint: "Enter your email",
                   ),
                   SizedBox(height: 30),
-                  Row(
-                    children: [
-                      CountryCodePicker(
-                        onChanged: (country) {
-                          print(country.dialCode); // save the selected code if needed
-                        },
-                        initialSelection: 'TN',
-                        favorite: ['+216','TN'],
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: phoneController,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            labelText: "Phone number",
-                            hintText: "Enter your phone number",
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ],
+
+                  // Phone
+                  TextField(
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: "Phone number",
+                      hintText: "Enter your phone number",
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                   SizedBox(height: 30),
+
+                  // Password
                   CustomTextField(
                     controller: passwordController,
                     label: "Password",
                     hint: "Enter your password",
                   ),
                   SizedBox(height: 30),
+
+                  // Confirm Password
                   CustomTextField(
-                    controller: passwordController,
+                    controller: confirmPasswordController,
                     label: "Confirm Password",
                     hint: "Confirm your password",
                   ),
                   SizedBox(height: 40),
+
+                  // Sign Up Button
                   CustomButton(
                     text: "Sign Up",
                     onPressed: () {
-                      // TODO: Add signup logic
-                      print(
-                          "Name: ${nameController.text}, Email: ${emailController.text}");
+                      controller.signup(
+                        firstName: fnameController.text.trim(),
+                        lastName: lnameController.text.trim(),
+                        email: emailController.text.trim(),
+                        phone: phoneController.text.trim(),
+                        password: passwordController.text.trim(),
+                        confirmPassword: confirmPasswordController.text.trim(),
+
+                      );
+
                     },
                   ),
-                  SizedBox(height: 80), // leave space for bottom text
+
+                  SizedBox(height: 80), // space for bottom text
                 ],
               ),
             ),
@@ -173,6 +176,5 @@ class SignUpPage extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

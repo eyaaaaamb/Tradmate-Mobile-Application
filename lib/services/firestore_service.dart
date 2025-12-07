@@ -1,10 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/purchase_model.dart';
 import '../model/sale_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../model/user_model.dart';
+import 'package:get/get.dart';
+
+
 
 class FireStoreService {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   static final purchaseRef = FirebaseFirestore.instance
       .collection('purchase')
       .withConverter<PurchaseModel>(
@@ -166,4 +173,31 @@ class FireStoreService {
     final least = productProfit.entries.reduce((a, b) => a.value < b.value ? a : b);
     return {'name': least.key, 'profit': least.value};
   }
+  //user related
+//sign up
+   Future<void> createUser({
+    required UserModel user,
+   required String password,
+}) async {
+    try{
+      //s 1 create user in f auth
+      final cred= await auth.createUserWithEmailAndPassword(email: user.email, password: password);
+      //2save user info
+      await _firestore.collection('users').doc(cred.user!.uid).set(user.toMap());
+     print("Account created successfully");
+    }catch (e){
+    print(e);
+    }
+ }
+  Future<UserCredential> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+
 }

@@ -10,7 +10,7 @@ import "./views/income.dart";
 import "./views/profile.dart";
 import "./views/settings.dart";
 import "./views/history.dart";
-import "package:get/get.dart";
+
 import "../bindings/home_bindings.dart";
 
 

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../widgets/menu.dart';
 import '../theme.dart';
 import '../controllers/home_controller.dart';
-import "../bindings/home_bindings.dart";
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});

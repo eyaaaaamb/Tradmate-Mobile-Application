@@ -3,10 +3,12 @@ import '../widgets/CustomInput.dart';
 import 'package:get/get.dart';
 import '../theme.dart';
 import '../widgets/customBtn.dart';
+import '../controllers/auth_controller.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +57,13 @@ class LoginPage extends StatelessWidget {
                   CustomButton(
                     text: "Login",
                     onPressed: () {
-                      // TODO: Add login/sign-in logic
-                      print(
-                          "Login pressed: ${emailController.text}, ${passwordController.text}");
+                     controller.login(
+                         email: emailController.text.trim(),
+                         password: passwordController.text.trim(),
+                     );
+
+
+
                     },
                   ),
                   Spacer(),

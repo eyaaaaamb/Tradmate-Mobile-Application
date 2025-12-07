@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 import '../services/firestore_service.dart';
-import '../model/purchase_model.dart';
-import '../model/sale_model.dart';
 
 
 class HomeController extends GetxController {
@@ -14,8 +12,7 @@ class HomeController extends GetxController {
     final income = await FireStoreService.getThisMonthIncome();
     final best= await FireStoreService.getBestSeller();
     final low= await FireStoreService.getLeastSeller();
-    final now=DateTime.now();
-    final key = "${now.year}-${now.month.toString().padLeft(2, '0')}" ;
+
     thisMonthIncome.value = income;
     bestSeller.value = best['name'] ?? 'No data';
     lowSeller.value = low['name'] ?? 'No data';
@@ -31,11 +28,6 @@ class HomeController extends GetxController {
     });
     loadHomeData();
   }
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
 
 
 
