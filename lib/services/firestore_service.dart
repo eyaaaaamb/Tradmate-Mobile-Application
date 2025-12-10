@@ -36,7 +36,7 @@ class FireStoreService {
   }
 
 
-  // ---------------- ADD PURCHASE ----------------
+
   static Future<void> addPurchase(PurchaseModel purchase) async {
     if (purchase.id.isEmpty) {
       await purchaseRef.add(purchase);
@@ -45,7 +45,7 @@ class FireStoreService {
     }
   }
 
-  // ---------------- REMAINING QUANTITY ----------------
+
   static Future<int> getRemainingQuantity(String purchaseId) async {
     final purchaseSnap = await purchaseRef.doc(purchaseId).get();
     final purchase = purchaseSnap.data();
@@ -67,7 +67,7 @@ class FireStoreService {
 
 
 
-  // ---------------- AVAILABLE STOCK ----------------
+
   static Future<List<PurchaseModel>> getAvailableStock() async {
     final snapshot = await purchaseRef.where('userId',isEqualTo : uid).get();
     List<PurchaseModel> result = [];
@@ -83,7 +83,7 @@ class FireStoreService {
     return result;
   }
 
-  // ---------------- ADD SALE ----------------
+
   static Future<void> addSale(SaleModel sale) async {
     if (sale.id.isEmpty) {
       await saleRef.add(sale);
@@ -92,15 +92,15 @@ class FireStoreService {
     }
   }
 
-  // ---------------- GET ALL SALES ----------------
+
   static Future<List<SaleModel>> getSales() async {
     final sales = await saleRef.where('userId',isEqualTo : uid).get();
     return sales.docs.map((doc) => doc.data()).toList();
   }
 
-  // ---------------- PROFIT FUNCTIONS ----------------
 
-  // Monthly profit
+
+
   static Future<Map<String, double>> getMonthlyProfit() async {
     final salesSnap = await saleRef.where('userId',isEqualTo : uid).orderBy('saleDate').get();
     Map<String, double> monthlyProfit = {};
@@ -114,7 +114,7 @@ class FireStoreService {
     return monthlyProfit;
   }
 
-  // Yearly profit
+
   static Future<Map<int, double>> getYearlyProfit() async {
     final salesSnap = await saleRef.where('userId',isEqualTo : uid).orderBy('saleDate').get();
     Map<int, double> yearlyProfit = {};
@@ -127,10 +127,7 @@ class FireStoreService {
 
     return yearlyProfit;
   }
-  // FireStoreService
   static String get currentUid => FirebaseAuth.instance.currentUser!.uid;
-
-// Example usage
   static Future<double> getThisMonthIncome() async {
     final salesSnap = await saleRef.where('userId', isEqualTo: currentUid).get();
     double total = 0.0;
@@ -149,9 +146,6 @@ class FireStoreService {
     return total;
   }
 
-
-
-  // Best seller by profit
   static Future<Map<String, dynamic>> getBestSeller() async {
     final salesSnap = await saleRef.where('userId',isEqualTo : uid).get();
     Map<String, double> productProfit = {};
@@ -167,7 +161,7 @@ class FireStoreService {
     return {'name': best.key, 'profit': best.value};
   }
 
-  // Least seller by profit
+
   static Future<Map<String, dynamic>> getLeastSeller() async {
     final salesSnap = await saleRef.where('userId',isEqualTo : uid).get();
     Map<String, double> productProfit = {};

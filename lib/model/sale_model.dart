@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SaleModel {
   final String id;
-  final String purchaseId; // link to PurchaseModel
+  final String purchaseId;
   final String name;
   final String category;
   final DateTime saleDate;

@@ -4,8 +4,8 @@ import '../model/sale_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class IncomeController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  var category = "month".obs; // month/year
-  var sales = <SaleModel>[].obs; // reactive sales list
+  var category = "month".obs;
+  var sales = <SaleModel>[].obs;
   var monthlyIncome = <Map<String, dynamic>>[].obs;
   var yearlyIncome = <Map<String, dynamic>>[].obs;
 

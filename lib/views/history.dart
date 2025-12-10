@@ -31,7 +31,7 @@ class HistoryPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Sorting dropdown
+              // Sorting
               Obx(() => DropdownButton<String>(
                 value: controller.sortBy.value,
                 items: const [
@@ -55,7 +55,7 @@ class HistoryPage extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              // Sales list
+
               Expanded(
                 child: Obx(() {
                   final sales = controller.sortedSales;

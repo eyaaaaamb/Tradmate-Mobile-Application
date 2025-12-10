@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../widgets/menu.dart';
 import '../theme.dart';
-import '../controllers/lang_controller.dart';
 import '../controllers/profile_controller.dart';
 
 
@@ -13,7 +12,7 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final ProfileController controller = Get.put(ProfileController());
-  final LangController langController = Get.put(LangController());
+
 
 
   @override
@@ -41,7 +40,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Personal Details
+
                   _sectionTitle("Personal Details"),
                   _infoCard(
                     children: [
@@ -54,7 +53,7 @@ class ProfilePage extends StatelessWidget {
 
                   const SizedBox(height: 25),
 
-                  // Settings
+
                   _sectionTitle("Settings"),
                   _infoCard(
                     children: [
@@ -94,7 +93,6 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  // Small widgets
   Widget _sectionTitle(String text) => Text(
     text,
     style: const TextStyle(

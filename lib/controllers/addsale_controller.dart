@@ -27,7 +27,7 @@ class SaleController extends GetxController {
     isLoading.value = false;
   }
 
-  /// Show calendar to pick a sale date
+
   Future<void> pickSaleDate(BuildContext context) async {
     final now = DateTime.now();
     final picked = await showDatePicker(
@@ -80,7 +80,7 @@ class SaleController extends GetxController {
 
     await FireStoreService.addSale(sale);
 
-    // Clear controllers
+
     quantityController.clear();
     salePriceController.clear();
     selectedSaleDate.value = null;

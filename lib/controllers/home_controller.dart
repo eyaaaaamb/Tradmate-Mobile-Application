@@ -21,10 +21,10 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     FireStoreService.saleRef.snapshots().listen((_) {
-      loadHomeData(); // Refresh home stats automatically
+      loadHomeData();
     });
     FireStoreService.purchaseRef.snapshots().listen((_) {
-      loadHomeData(); // Refresh when purchase changes
+      loadHomeData();
     });
     loadHomeData();
   }

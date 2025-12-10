@@ -17,13 +17,12 @@ class LoginPage extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            // Main column content
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 80), // leave space for top icons
+                  SizedBox(height: 80),
                   Text(
                     "Hey ,",
                     style: TextStyle(
@@ -78,7 +77,7 @@ class LoginPage extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  Get.toNamed('/'); // navigate back to welcome page
+                  Get.toNamed('/');
                 },
               ),
             ),
@@ -88,7 +87,7 @@ class LoginPage extends StatelessWidget {
               top: 16,
               right: 16,
               child: Image.asset(
-                'assets/images/logo.png', // replace with your logo path
+                'assets/images/logo.png',
                 height: 50,
               ),
             ),

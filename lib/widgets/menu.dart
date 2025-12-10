@@ -24,7 +24,7 @@ class CustomBottomBar extends StatelessWidget {
             ),
           ),
 
-          // Floating center button
+          // button mt3 lwest
           Positioned(
             top: -25,
             left: 0,
@@ -84,7 +84,7 @@ class CustomBottomBar extends StatelessWidget {
             ),
           ),
 
-          // Icons row
+
           Align(
             alignment: Alignment.center,
             child: Padding(

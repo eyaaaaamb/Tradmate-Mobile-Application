@@ -23,7 +23,6 @@ class StockPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ---------- HEADER ----------
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -51,8 +50,6 @@ class StockPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-
-              // ---------- FILTER LABEL + DROPDOWN ----------
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -104,8 +101,6 @@ class StockPage extends StatelessWidget {
               ),
 
               const SizedBox(height: 25),
-
-              // ---------- PRODUCT GRID ----------
               Expanded(
                 child: Obx(() {
                   final sorted = controller.sortedProducts;

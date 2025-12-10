@@ -14,18 +14,17 @@ class HistoryController extends GetxController {
   }
 
   void listenToHistory() {
-    // Listen to purchases in real-time
     FireStoreService.purchaseRef.snapshots().listen((purchaseSnap) async {
       List<Map<String, dynamic>> updatedHistory = [];
 
       for (var pDoc in purchaseSnap.docs) {
         final purchase = pDoc.data() as PurchaseModel;
 
-        // await is allowed here
+
         final remaining = await FireStoreService.getRemainingQuantity(purchase.id);
 
         if (remaining == 0) {
-          // get all sales linked to this purchase
+
           final saleSnap = await FireStoreService.saleRef
               .where('purchaseId', isEqualTo: purchase.id )
               .get();
@@ -46,7 +45,7 @@ class HistoryController extends GetxController {
         }
       }
 
-      // update observable list
+
       sales.value = updatedHistory;
     });
   }

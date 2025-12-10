@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 class CustomTextField extends StatelessWidget {
-  // A controller for the TextField
+
   final TextEditingController controller;
   final String label;
   final String hint;
 
-  // Constructor
+
   const CustomTextField({
     Key? key,
     required this.controller,

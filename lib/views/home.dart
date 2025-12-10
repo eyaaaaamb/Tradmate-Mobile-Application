@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: AppColors.background,
       bottomNavigationBar: CustomBottomBar(),
       body: SafeArea(
-        child: SingleChildScrollView( // Allows vertical scrolling
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

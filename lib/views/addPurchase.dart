@@ -22,14 +22,14 @@ class AddPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Logo
+
                 Align(
                   alignment: Alignment.topRight,
                   child: Image.asset('assets/images/logo.png', height: 50),
                 ),
                 const SizedBox(height: 20),
 
-                // Title
+
                 Text(
                   "Add Purchase",
                   style: TextStyle(
@@ -40,7 +40,7 @@ class AddPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Form card
+
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -58,21 +58,16 @@ class AddPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product
                       CustomTextField(
                         label: "Product",
                         controller: controller.productController,
                       ),
                       const SizedBox(height: 15),
-
-                      // Category
                       CustomTextField(
                         label: "Category",
                         controller: controller.categoryController,
                       ),
                       const SizedBox(height: 15),
-
-                      // Purchase Date
                       Obx(() => TextButton(
                         onPressed: () async {
                           final now = DateTime.now();
@@ -97,16 +92,12 @@ class AddPage extends StatelessWidget {
                         ),
                       )),
                       const SizedBox(height: 15),
-
-                      // Purchase Price
                       CustomTextField(
                         label: "Purchase Price",
                         controller: controller.priceController,
                         keyboardType: TextInputType.number,
                       ),
                       const SizedBox(height: 15),
-
-                      // Quantity
                       CustomTextField(
                         label: "Quantity",
                         controller: controller.quantityController,
@@ -114,7 +105,7 @@ class AddPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 25),
 
-                      // Save button
+
                       Center(
                         child: Obx(() => ElevatedButton(
                           onPressed: controller.isLoading.value

@@ -53,7 +53,7 @@ class SalePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // --- Purchase Dropdown ---
+
                 Obx(() {
                   return DropdownButton<PurchaseModel>(
                     hint: const Text("Select product"),
@@ -72,7 +72,7 @@ class SalePage extends StatelessWidget {
                 }),
                 const SizedBox(height: 15),
 
-                // --- Quantity & Price ---
+
                 buildTextField("Quantity", controller.quantityController),
                 const SizedBox(height: 15),
                 buildTextField("Sale Price", controller.salePriceController),
@@ -87,7 +87,7 @@ class SalePage extends StatelessWidget {
                 )),
 
 
-                // --- Save Button ---
+
                 Center(
                   child: Obx(() {
                     return ElevatedButton(

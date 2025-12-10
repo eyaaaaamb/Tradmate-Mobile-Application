@@ -5,7 +5,7 @@ import '../services/firestore_service.dart';
 import 'package:get/get.dart';
 
 class AddPurchaseController extends GetxController {
-  // Text controllers for form fields
+
   final productController = TextEditingController();
   final categoryController = TextEditingController();
   final priceController = TextEditingController();
@@ -14,10 +14,10 @@ class AddPurchaseController extends GetxController {
   final uid = FirebaseAuth.instance.currentUser!.uid;
 
 
-  // Selected purchase date
+
   var selectedPurchaseDate = Rxn<DateTime>();
 
-  // Loading state
+
   var isLoading = false.obs;
 
   @override
@@ -30,7 +30,6 @@ class AddPurchaseController extends GetxController {
     super.onClose();
   }
 
-  // Pick purchase date using calendar
   Future<void> pickPurchaseDate(BuildContext context) async {
     final now = DateTime.now();
     final picked = await showDatePicker(
@@ -45,7 +44,7 @@ class AddPurchaseController extends GetxController {
     }
   }
 
-  // Validate inputs
+
   bool validateInputs() {
     if (productController.text.isEmpty ||
         categoryController.text.isEmpty ||
@@ -70,7 +69,7 @@ class AddPurchaseController extends GetxController {
       return false;
     }
 
-    // Optional: validate numeric ID
+
     if (idController.text.isNotEmpty && int.tryParse(idController.text) == null) {
       Get.snackbar("Error", "ID must be a number");
       return false;
@@ -79,7 +78,6 @@ class AddPurchaseController extends GetxController {
     return true;
   }
 
-  // Save purchase to Firestore
   Future<void> savePurchase() async {
     if (!validateInputs()) return;
 
@@ -100,7 +98,6 @@ class AddPurchaseController extends GetxController {
 
       Get.snackbar("Success", "Purchase saved successfully");
 
-      // Clear fields
       productController.clear();
       categoryController.clear();
       priceController.clear();

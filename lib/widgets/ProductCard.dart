@@ -39,7 +39,7 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- PRODUCT NAME ---
+
             Text(
               name,
               maxLines: 8,
@@ -51,7 +51,7 @@ class ProductCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
 
-            // --- CATEGORY ---
+
             _iconTextRow(
               icon: Icons.category,
               label: "Catégorie",
@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
 
-            // --- QUANTITY ---
+
             _iconTextRow(
               icon: Icons.inventory_2_outlined,
               label: "Qty",
@@ -67,7 +67,7 @@ class ProductCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
 
-            // --- PURCHASE PRICE ---
+
             if (purchasePrice != null)
               _iconTextRow(
                 icon: Icons.attach_money,
@@ -76,7 +76,7 @@ class ProductCard extends StatelessWidget {
               ),
             if (purchasePrice != null) const SizedBox(height: 6),
 
-            // --- PURCHASE DATE ---
+
             if (purchaseDate != null)
               _iconTextRow(
                 icon: Icons.calendar_today,
@@ -84,8 +84,6 @@ class ProductCard extends StatelessWidget {
                 value: purchaseDate!,
               ),
             if (purchaseDate != null) const SizedBox(height: 6),
-
-            // --- SALE PRICE ---
             if (salePrice != null)
               _iconTextRow(
                 icon: Icons.attach_money,
@@ -94,7 +92,7 @@ class ProductCard extends StatelessWidget {
               ),
             if (salePrice != null) const SizedBox(height: 6),
 
-            // --- SALE DATE ---
+
             if (saleDate != null)
               _iconTextRow(
                 icon: Icons.calendar_today,
@@ -107,7 +105,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  // Small reusable row widget
   Widget _iconTextRow({
     required IconData icon,
     required String label,

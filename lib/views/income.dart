@@ -13,7 +13,7 @@ class IncomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: CustomBottomBar(), // SAME BAR ADDED
+      bottomNavigationBar: CustomBottomBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),

@@ -23,7 +23,7 @@ class ProfileController extends GetxController {
     fetchUser();
   }
 
-  // ---------------- FETCH USER ----------------
+
   void fetchUser() async {
     final uid = auth.currentUser?.uid;
     if (uid != null) {
@@ -36,7 +36,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  // ---------------- LOGOUT ----------------
+
   void logout() async {
     await auth.signOut();
     Fluttertoast.showToast(
@@ -45,11 +45,11 @@ class ProfileController extends GetxController {
       gravity: ToastGravity.BOTTOM,
     );
 
-    // Navigate to login page
+
     Get.offAllNamed('/login');
   }
 
-  // ---------------- CONFIRM LOGOUT ----------------
+
   void confirmLogout(BuildContext context) {
     showDialog(
       context: context,
@@ -58,13 +58,13 @@ class ProfileController extends GetxController {
         content: const Text("Are you sure you want to log out?"),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(), // Cancel
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // Close dialog
-              logout(); // Call the logout method
+              logout();
             },
             child: const Text(
               "Log out",
