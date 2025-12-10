@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
+import '../theme.dart';
 class CustomTextField extends StatelessWidget {
-  // A controller for the TextField
+
   final TextEditingController controller;
   final String label;
   final String hint;
 
-  // Constructor
+
   const CustomTextField({
     Key? key,
     required this.controller,
@@ -22,14 +22,14 @@ class CustomTextField extends StatelessWidget {
         labelText: label,
         hintText: hint,
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: AppColors.background,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: AppColors.primary),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color:AppColors.primary),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

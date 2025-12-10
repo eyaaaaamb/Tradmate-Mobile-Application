@@ -3,16 +3,16 @@ class UserModel {
   final String firstName;
   final String lastName;
   final String email;
-  final String? phone;
-  final String password;
+
+
 
   UserModel({
     required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
-    this.phone,
-    required this.password,
+
+
   });
 
   // Factory to convert Firestore document to UserModel
@@ -22,8 +22,8 @@ class UserModel {
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
       email: data['email'] ?? '',
-      phone: data['phone'],
-      password: data['password'] ?? '',
+
+
     );
   }
 
@@ -33,8 +33,8 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'phone': phone,
-      'password': password,
+
+
     };
   }
 }
